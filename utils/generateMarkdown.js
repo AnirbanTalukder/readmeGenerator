@@ -7,14 +7,17 @@ function generateMarkdown(userResponses, userInfo) {
     // Plug userReponses into table of contents
     let tableOfContent = `## Table of Contents`;
 
+    if (userResponses.description !== '') { tableOfContent += `
+  * [Description](#description)` };
+
     if (userResponses.installation !== '') { tableOfContent += `
   * [Installation](#installation)` };
 
     if (userResponses.usage !== '') { tableOfContent += `
   * [Usage](#usage)` };
 
-    if (userResponses.contributing !== '') { tableOfContent += `
-  * [Contributing](#contributing)` };
+    if (userResponses.contribution !== '') { tableOfContent += `
+  * [Contribution](#contribution)` };
 
     if (userResponses.tests !== '') { tableOfContent += `
   * [Tests](#tests)` };
@@ -30,80 +33,61 @@ function generateMarkdown(userResponses, userInfo) {
   
   ## Description 
   
-  
   ${userResponses.description}
   `
         // Add table of contents data to markdown
     markdown += tableOfContent;
-
     // Add license section to markdown
     markdown += `
-  * [License](#license)`;
+
+  // * [License](#license)`;
 
     // Create installation section
-    if (userResponses.installation !== '') {
-
-        markdown +=
-            `
+    if (userResponses.license !== '') {
+        markdown += `
   
   ## Installation
-  
-  
   ${userResponses.installation}`
     };
 
     // Create usage section
     if (userResponses.usage !== '') {
-
         markdown +=
-
             `
-  
   ## Usage 
-  
-   
   ${userResponses.usage}`
     };
 
     // Create contribution section
-    if (userResponses.contributing !== '') {
+    if (userResponses.contribution !== '') {
         `
   
-  ## Contributing
-  
-  
-  ${userResponses.contributing}`
+  ## Contribution
+  ${userResponses.contribution}`
     };
-
-    // Create tests section
-    if (userResponses.tests !== '') {
-
-        markdown +=
-            `
-  
-  ## Tests
-  
-  
-  ${userResponses.tests}`
-    };
-
-    // Connect userResponses to license section
     markdown +=
         `
   
-  ## License
-  
-  ${userResponses.license}
-  `;
+  ## Tests
+  ${userResponses.tests}`
+};
 
-    // Questions section
-    let developer =
-        `
+// Connect userResponses to license section
+markdown +=
+    `
+  
+  ## License
+
+  ![](https://img.shields.io/badge/license-${userResponses.license.replace(/ /g, "%20")}-blue?style=flat-square)`;
+
+// Questions section
+let developer =
+    `
   ---
   
   ## Questions?
   * __GitHub:__ [github.com/${userInfo.login}](https://github.com/${userInfo.login})
-  * __Email:__ [${userInfo.email}](mailto:${userInfo.email})
+  * __Email:__ [${userResponses.email}](mailto:${userResponses.email})
   
   ![Developer Profile Picture](${userInfo.avatar_url}) 
   
@@ -113,19 +97,19 @@ function generateMarkdown(userResponses, userInfo) {
   GitHub: [@${userInfo.login}](${userInfo.url})
   `;
 
-    // If GitHub email is not null, add to Developer section
-    if (userInfo.email !== null) {
+// If GitHub email is not null, add to Developer section
+if (userInfo.email !== null) {
 
-        developer +=
-            `
+    developer +=
+        `
   `
-    };
+};
 
-    // Add developer section to markdown
-    markdown += developer;
+// Add developer section to markdown
+markdown += developer;
 
-    // Return markdown
-    return markdown;
+// Return markdown
+return markdown;
 };
 
 // Export markdown module

@@ -57,10 +57,10 @@ const questions = [
         choices: ["None", "Apache2.0", "GNU Public v3.0", "MIT", "Boost Software 1.0"]
 
     },
-    // Contributing to project
+    // Contribution to project
     {
         type: 'input',
-        name: 'contributing',
+        name: 'contribution',
         message: 'Explain how users can contribute to your project (if necessary).',
         // Validation not required if question is optional
     },
